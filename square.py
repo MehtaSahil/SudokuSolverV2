@@ -14,6 +14,9 @@ class Square:
         else:
             self.value = None
     
+    def getOptions(self) -> list[int]:
+        return self.options
+
     def isSet(self) -> bool:
         return (self.value is not None)
     

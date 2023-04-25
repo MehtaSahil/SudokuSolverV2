@@ -17,6 +17,9 @@ class Puzzle:
     def get(self, r: int, c: int) -> Optional[int]:
         return self.puzzle[r][c].get()
     
+    def getOptionsFor(self, r: int, c: int) -> list[int]:
+        return self.puzzle[r][c].getOptions()
+    
     def reset(self, r: int, c: int) -> None:
         old_value = self.puzzle[r][c].get()
         self.puzzle[r][c].reset()
@@ -109,3 +112,34 @@ class Puzzle:
         
         for r_walk in range(9):
             self.puzzle[r_walk][c].allowOption(removed_value)
+        
+    def solve(self) -> bool:
+        print('called')
+        if (not self.isValid()):
+            print('bad')
+            return False
+        
+        if self.isSolved():
+            return True
+
+        for r in range(9):
+            for c in range(9):
+                
+                # Skip over the spots that already have values
+                if self.puzzle[r][c].isSet():
+                    continue
+
+                options = self.getOptionsFor(r, c)
+                for option in options:
+                    # set
+                    self.set(r, c, option)
+
+                    # recurse
+                    if self.solve():
+                        return True
+                    
+                    # unset
+                    self.reset(r, c)
+
+        return False
+                
