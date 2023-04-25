@@ -22,6 +22,55 @@ class Puzzle:
         self.puzzle[r][c].reset()
         self.__syncReset(r, c, old_value)
     
+    def isValid(self) -> bool:
+        # A simplified version of the isSolved logic
+        # Check that there are no duplicates in 1) a row 2) a col 3) a subsection
+    
+        # row check
+        for r in range(9):
+            seen = set()
+            for c in range(9):
+                value = self.puzzle[r][c].get()
+                if (value is None):
+                    continue
+                
+                if (value in seen):
+                    return False
+                
+                seen.add(value)
+            
+        # col check
+        for c in range(9):
+            seen = set()
+            for r in range(9):
+                value = self.puzzle[r][c].get()
+                if (value is None):
+                    continue
+                
+                if (value in seen):
+                    return False
+                
+                seen.add(value)
+            
+        
+        subsquares = [[set(), set(), set()] for _ in range(3)]
+        for r in range(9):
+            for c in range(9):
+                row_index = r // 3
+                col_index = c // 3
+                
+                value = self.puzzle[r][c].get()
+                if (value is None):
+                    continue
+
+                if (value in subsquares[row_index][col_index]):
+                    return False
+                
+                subsquares[row_index][col_index].add(value)
+        
+        return True
+                
+
     def isSolved(self) -> bool:
         # First make sure that all values are set
         row_values = [set()] * 9

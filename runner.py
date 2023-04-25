@@ -13,5 +13,7 @@ if __name__ == '__main__':
             p.set(r, c, 8)
         
         p.reset(r, 0)
+    
+    p.isValid()
 
     print('done')
