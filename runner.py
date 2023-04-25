@@ -1,2 +1,6 @@
+from square import Square
 
-print("hello, world!")
+if __name__ == '__main__':
+    print('initializing')
+    s = Square(0, 0)
+    print('done')
