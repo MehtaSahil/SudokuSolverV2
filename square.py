@@ -27,9 +27,9 @@ class Square:
         self.value = None
     
     def allowOption(self, value) -> None:
-        index = value + 1
+        index = value - 1
         self.options[index] = 1
     
     def disallowOption(self, value) -> None:
-        index = value + 1
+        index = value - 1
         self.options[index] = 0

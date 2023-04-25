@@ -12,12 +12,15 @@ class Puzzle:
 
     def set(self, r: int, c: int, value: int) -> None:
         self.puzzle[r][c].set(value)
+        self.__syncSet(r, c, value)
     
     def get(self, r: int, c: int) -> Optional[int]:
         return self.puzzle[r][c].get()
     
     def reset(self, r: int, c: int) -> None:
+        old_value = self.puzzle[r][c].get()
         self.puzzle[r][c].reset()
+        self.__syncReset(r, c, old_value)
     
     def isSolved(self) -> bool:
         # First make sure that all values are set
@@ -43,3 +46,17 @@ class Puzzle:
                 return False
 
         return True
+    
+    def __syncSet(self, r: int, c: int, new_value: int) -> None:
+        for c_walk in range(9):
+            self.puzzle[r][c_walk].disallowOption(new_value)
+        
+        for r_walk in range(9):
+            self.puzzle[r_walk][c].disallowOption(new_value)
+        
+    def __syncReset(self, r: int, c: int, removed_value: int) -> None:
+        for c_walk in range(9):
+            self.puzzle[r][c_walk].allowOption(removed_value)
+        
+        for r_walk in range(9):
+            self.puzzle[r_walk][c].allowOption(removed_value)
