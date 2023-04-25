@@ -20,4 +20,26 @@ class Puzzle:
         self.puzzle[r][c].reset()
     
     def isSolved(self) -> bool:
-        return False
+        # First make sure that all values are set
+        row_values = [set()] * 9
+        col_values = [set()] * 9
+        for r in range(9):            
+            for c in range(9):
+                current_square = self.puzzle[r][c]
+                if (not current_square.isSet()):
+                    return False
+
+                row_values[r].add(current_square.get())
+                col_values[c].add(current_square.get())
+            
+            # Check that there were nine distinct elements in the row
+            if (not len(row_values[r]) == 9):
+                return False
+        
+        # Then, make sure that column are all valid
+        for c in range(9):
+            unique_col_elements = len(col_values[c])
+            if not unique_col_elements == 9:
+                return False
+
+        return True

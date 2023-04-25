@@ -6,4 +6,5 @@ if __name__ == '__main__':
     # Dummy board for now (all ones)
     p = Puzzle([[1] * 9 for _ in range(9)])
     p.set(0, 0, 5)
+    print(p.isSolved())
     print('done')
